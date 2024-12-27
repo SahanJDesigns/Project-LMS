@@ -10,7 +10,7 @@ interface Course {
   category: string;
   image?: string;
 }
-
+// sdfarga
 const CoursePage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [sortValue, setSortValue] = useState("latest");
