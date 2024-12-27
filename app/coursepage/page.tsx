@@ -49,14 +49,14 @@ const CoursePage: React.FC = () => {
     <div className="flex flex-col lg:flex-row">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex-1 p-6 bg-gray-100">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-  <div className="flex-1">
-    <h1 className="text-2xl font-bold">Course</h1>
-  </div>
-  <div className="flex-1">
-    <PageSearchBox />
-  </div>
-</div>
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
+          <div className="flex-1 ">
+            <h1 className="text-2xl font-bold">Course</h1>
+          </div>
+          <div className="flex-1 justify-center">
+            <PageSearchBox />
+          </div>
+        </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
             <input
