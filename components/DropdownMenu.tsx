@@ -11,7 +11,11 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, options, onChange, v
   return (
     <div className="flex flex-col">
       <label className="mb-1">{label}</label>
-      <select className="w-full lg:w-40 px-4 py-2 border rounded-lg" onChange={onChange} value={value}>
+      <select
+        className="w-full lg:w-40 px-4 py-2 border rounded-lg bg-gray-100"
+        onChange={onChange}
+        value={value}
+      >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

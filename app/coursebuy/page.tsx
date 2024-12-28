@@ -1,20 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar";
-import CourseCard from "../../components/CourseCard";
+import CourseBuyCard from "../../components/CourseBuyCard";
 import DropdownMenu from "../../components/DropdownMenu";
 import PageSearchBox from "../../components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
+
 interface Course {
   title: string;
   category: string;
-  image?: string;
+  rating: number;
+  students: number;
+  price: number;
+  imageUrl: string;
 }
-// sdfarga
-const CoursePage: React.FC = () => {
+
+const CourseBuyPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [sortValue, setSortValue] = useState("latest");
   const [categoryValue, setCategoryValue] = useState("all");
+  const [ratingValue, setRatingValue] = useState("all");
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -24,11 +29,35 @@ const CoursePage: React.FC = () => {
     {
       title: "Premiere Pro CC for Beginners",
       category: "Development",
-      image: "https://training.digigrowhub.in/wp-content/uploads/2021/02/do-coding-of-any-program-by-c-plus-plus-perfectly-and-within-time.jpg",
+      rating: 4.5,
+      students: 1200,
+      price: 49.99,
+      imageUrl: "https://training.digigrowhub.in/wp-content/uploads/2021/02/do-coding-of-any-program-by-c-plus-plus-perfectly-and-within-time.jpg",
     },
-    { title: "Advanced React Techniques", category: "Development", image: "" },
-    { title: "Mastering Python", category: "Programming", image: "" },
-    { title: "Complete Web Design", category: "Design", image: "" },
+    {
+      title: "Advanced React Techniques",
+      category: "Development",
+      rating: 4.7,
+      students: 800,
+      price: 59.99,
+      imageUrl: "https://training.digigrowhub.in/wp-content/uploads/2021/02/do-coding-of-any-program-by-c-plus-plus-perfectly-and-within-time.jpg",
+    },
+    {
+      title: "Mastering Python",
+      category: "Programming",
+      rating: 4.8,
+      students: 1500,
+      price: 39.99,
+      imageUrl: "https://training.digigrowhub.in/wp-content/uploads/2021/02/do-coding-of-any-program-by-c-plus-plus-perfectly-and-within-time.jpg",
+    },
+    {
+      title: "Complete Web Design",
+      category: "Design",
+      rating: 4.6,
+      students: 900,
+      price: 29.99,
+      imageUrl: "https://training.digigrowhub.in/wp-content/uploads/2021/02/do-coding-of-any-program-by-c-plus-plus-perfectly-and-within-time.jpg",
+    },
     // Add more course data as needed
   ];
 
@@ -45,14 +74,23 @@ const CoursePage: React.FC = () => {
     // Add more categories as needed
   ];
 
+  const ratingOptions = [
+    { value: "all", label: "All Ratings" },
+    { value: "1", label: "⭐ 1" },
+    { value: "2", label: "⭐⭐ 2" },
+    { value: "3", label: "⭐⭐⭐ 3" },
+    { value: "4", label: "⭐⭐⭐⭐ 4" },
+    { value: "5", label: "⭐⭐⭐⭐⭐ 5" },
+  ];
+
   return (
     <div className="flex flex-col lg:flex-row">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex-1 p-6 bg-gray-100">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
           <div className="flex-1 ">
-            <Breadcrumb paths={[{ name: "Home", link: "/" }, { name: "Course" }]} />
-            <h1 className="text-2xl font-bold">Course</h1>
+            <Breadcrumb paths={[{ name: "Home", link: "/" }, { name: "Buy Courses" }]} />
+            <h1 className="text-2xl font-bold">Buy Courses</h1>
           </div>
           <div className="flex-1 justify-center">
             <PageSearchBox />
@@ -79,27 +117,24 @@ const CoursePage: React.FC = () => {
                 onChange={(e) => setCategoryValue(e.target.value)}
                 value={categoryValue}
               />
-              <button
-                className="px-4 py-2 bg-blue-700 text-white rounded-full w-full md:w-36"
-                style={{ width: "150px" }}
-              >
-                Search Quiz
-              </button>
-              <button
-                className="px-4 py-2 bg-purple-700 text-white rounded-full w-full md:w-36"
-                style={{ width: "150px" }}
-              >
-                New Courses
-              </button>
+              <DropdownMenu
+                label="Ratings"
+                options={ratingOptions}
+                onChange={(e) => setRatingValue(e.target.value)}
+                value={ratingValue}
+              />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
             {courses.map((course, index) => (
-              <CourseCard
+              <CourseBuyCard
                 key={index}
                 title={course.title}
                 category={course.category}
-                image={course.image}
+                rating={course.rating}
+                students={course.students}
+                price={course.price}
+                imageUrl={course.imageUrl}
               />
             ))}
           </div>
@@ -116,4 +151,4 @@ const CoursePage: React.FC = () => {
   );
 };
 
-export default CoursePage;
+export default CourseBuyPage;

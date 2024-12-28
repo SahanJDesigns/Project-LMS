@@ -2,11 +2,11 @@ import React from 'react';
 
 const PageSearchBox: React.FC = () => {
   return (
-    <div className="flex items-center border-2 rounded-full px-4 py-2" style={{ width: '500px' }}>
+    <div className="flex items-center border-2 rounded-full px-4 py-2 bg-white" style={{ width: '500px' }}>
       <input
         type="text"
         placeholder="Search..."
-        className="px-4 py-2 border-none rounded-full w-full"
+        className="px-4 py-2 border-none rounded-full w-full bg-gray-100"
         style={{ outline: 'none' }}
       />
       <button className="ml-2">
