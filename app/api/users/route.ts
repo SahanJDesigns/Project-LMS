@@ -3,8 +3,6 @@ import { Types } from "mongoose";
 import connectMongo from "@/lib/dbconfig";
 import User from "@/models/user";
 
-const ObjectId = Types.ObjectId;
-
 export const GET = async () => {
   try {
     await connectMongo();
