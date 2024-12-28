@@ -53,7 +53,6 @@ export const PATCH = async (request: Request) => {
     }
 
     const updatedUser = await User.findOneAndUpdate(
-      { _id: new ObjectId(userId) },
       { username: newUsername },
       { new: true }
     );

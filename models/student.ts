@@ -21,7 +21,7 @@ const studentSchema = new mongoose.Schema({
     {
       courseId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course', // References the Course schema
+        ref: 'Course',
         required: true,
       },
       lessonsCompleted: {
@@ -46,6 +46,6 @@ const studentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-}, { timestamps: true }); // Automatically adds createdAt and updatedAt fields.
+}, { timestamps: true });
 
 export default mongoose.models.Student || mongoose.model('Student', studentSchema);

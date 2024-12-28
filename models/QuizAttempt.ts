@@ -74,4 +74,4 @@ const QuizAttemptSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('QuizAttempt', QuizAttemptSchema);
+export default mongoose.models.QuizAttempt || mongoose.model('QuizAttempt', QuizAttemptSchema);

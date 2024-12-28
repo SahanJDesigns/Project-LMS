@@ -168,4 +168,4 @@ const QuizSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Quiz', QuizSchema);
+export default mongoose.models.Quiz || mongoose.model('Quiz', QuizSchema);

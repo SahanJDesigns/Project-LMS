@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['Student', 'Teacher', 'Admin'],
+    enum: ['Student', 'Instructor', 'Admin'],
     required: true,
   },
   name: {
@@ -62,4 +62,4 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('User', UserSchema) || mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema) || mongoose.model('User', UserSchema);

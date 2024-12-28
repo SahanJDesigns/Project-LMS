@@ -27,7 +27,7 @@ const scheduleSchema = new mongoose.Schema({
             },
             date: {
               type: Date,
-              required: true, // specifies when the lesson is scheduled
+              required: true,
             },
             status: {
               type: String,

@@ -61,4 +61,4 @@ const QuestionSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Question', QuestionSchema);
+export default mongoose.models.Question || mongoose.model('Question', QuestionSchema);
