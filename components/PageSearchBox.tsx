@@ -2,7 +2,7 @@ import React from 'react';
 
 const PageSearchBox: React.FC = () => {
   return (
-    <div className="flex items-center border-2 rounded-full px-4 py-2 bg-white" style={{ width: '500px' }}>
+    <div className="flex items-center border-2 rounded-full px-4 py-2 bg-white w-full sm:w-96">
       <input
         type="text"
         placeholder="Search..."
@@ -12,7 +12,7 @@ const PageSearchBox: React.FC = () => {
       <button className="ml-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8 text-gray-500"
+          className="h-6 w-6 sm:h-8 sm:w-8 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -25,10 +25,10 @@ const PageSearchBox: React.FC = () => {
           />
         </svg>
       </button>
-      <button className="ml-4">
+      <button className="ml-2 sm:ml-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8 text-gray-500"
+          className="h-6 w-6 sm:h-8 sm:w-8 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -41,10 +41,10 @@ const PageSearchBox: React.FC = () => {
           />
         </svg>
       </button>
-      <button className="ml-4">
+      <button className="ml-2 sm:ml-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8 text-gray-500"
+          className="h-6 w-6 sm:h-8 sm:w-8 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -57,10 +57,10 @@ const PageSearchBox: React.FC = () => {
           />
         </svg>
       </button>
-      <button className="ml-4">
+      <button className="ml-2 sm:ml-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8 text-gray-500"
+          className="h-6 w-6 sm:h-8 sm:w-8 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

@@ -8,7 +8,7 @@ interface CourseCardProps {
 
 const CourseCard: React.FC<CourseCardProps> = ({ title, category, image }) => {
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="bg-gray-100 shadow-md rounded-lg overflow-hidden">
         <div className="p-2 rounded-lg overflow-hidden">
         <img
          src={image || 'https://via.placeholder.com/300'}
