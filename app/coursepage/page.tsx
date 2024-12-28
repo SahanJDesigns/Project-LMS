@@ -24,7 +24,7 @@ const CoursePage: React.FC = () => {
     {
       title: "Premiere Pro CC for Beginners",
       category: "Development",
-      image: "",
+      image: "https://training.digigrowhub.in/wp-content/uploads/2021/02/do-coding-of-any-program-by-c-plus-plus-perfectly-and-within-time.jpg",
     },
     { title: "Advanced React Techniques", category: "Development", image: "" },
     { title: "Mastering Python", category: "Programming", image: "" },
