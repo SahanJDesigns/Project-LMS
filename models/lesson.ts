@@ -4,6 +4,7 @@ const lessonSchema = new mongoose.Schema({
   lessonId: { type: String, required: true, unique: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
+  videoUrl: { type: String, required: true },
   summary: { type: String, required: true },
   content: { type: String, required: true },
   course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },

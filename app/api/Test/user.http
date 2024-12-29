@@ -1,35 +1,33 @@
-### GET Request to fetch all users
-GET http://localhost:3000/api/users HTTP/1.1
+### Get all users
+GET http://localhost:3000/api/users
 Content-Type: application/json
 
 ###
 
-### POST Request to create a new user
-POST http://localhost:3000/api/users HTTP/1.1
+### Create a new user
+POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "name": "newUser",
+  "username": "newuser",
   "email": "newuser@example.com",
-  "password": "securepassword"
+  "password": "password123"
 }
 
 ###
 
-### PATCH Request to update a user's username
-PATCH http://localhost:3000/api/users HTTP/1.1
+### Update a user
+PATCH http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "userId": "676a9d75e627ab5d23cf995f",
-  "newUsername": "newUser"
+  "userId": "60d0fe4f5311236168a109ca",
+  "newUsername": "updateduser"
 }
 
 ###
 
-### DELETE Request to delete a user
-DELETE http://localhost:3000/api/users?userId=676a9d75e627ab5d23cf995f HTTP/1.1
+### Delete a user
+DELETE http://localhost:3000/api/users?userId=60d0fe4f5311236168a109ca
 Content-Type: application/json
-
-###
 
