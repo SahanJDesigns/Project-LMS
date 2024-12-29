@@ -6,7 +6,7 @@ import { Types } from 'mongoose';
 export const GET = async () => {
   try {
     await connectMongo();
-    const courses = await Course.find().populate('instructors lessons quizzes enrolledStudents comments');
+    const courses = await Course.find();
     return new NextResponse(JSON.stringify(courses), { status: 200 });
   } catch (error: any) {
     return new NextResponse(`Error in fetching courses: ${error.message}`, { status: 500 });
