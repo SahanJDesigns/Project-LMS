@@ -59,7 +59,7 @@ const Signup = () => {
               Sign up with Google
             </button>
             <p className="mt-4">
-              Already have an account? <a href="#">Log in</a>
+              Already have an account? <a href="/signin">Log in</a>
             </p>
           </div>
 
