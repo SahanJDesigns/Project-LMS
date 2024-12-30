@@ -54,6 +54,7 @@ const Signup = () => {
                 height={20}
                 alt="Google Icon"
                 className="w-5 mr-2"
+                loading="eager"
               />
               Sign up with Google
             </button>
@@ -67,13 +68,6 @@ const Signup = () => {
             {/* Rectangle 3 */}
             <div className="w-52 h-24 bg-white rounded-lg absolute top-5 left-7"></div>
 
-            <Image
-              className="w-36 h-auto absolute top-36 left-12"
-              src="/rectangle-40.png"
-              width={144}
-              height={144}
-              alt="Rectangle 4"
-            />
 
             {/* Rectangle 5 */}
             <div className="w-24 h-12 bg-white bg-opacity-50 rounded absolute bottom-12 right-7"></div>
@@ -81,10 +75,12 @@ const Signup = () => {
             {/* Illustration - SVG Image (banner-1-10.svg) */}
             <Image
               className="w-64 h-auto relative mt-5"
-              src="/banner-1-10.svg"
-              width={1440}
-              height={2000}
+              src="/image.png"
+              
+              width={300}
+              height={300}
               alt="Banner 1"
+               loading="eager"
             />
 
             {/* Text */}
