@@ -7,7 +7,7 @@ const lessonSchema = new mongoose.Schema({
   videoUrl: { type: String, required: true },
   summary: { type: String, required: true },
   content: { type: String, required: true },
-  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
+  // course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
   resources: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Resource' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   createdAt: { type: Date, default: Date.now },
