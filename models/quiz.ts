@@ -1,14 +1,18 @@
 import mongoose from 'mongoose';
+import  Course  from './course';
 
+const courseSchema = Course;
 const QuizSchema = new mongoose.Schema({
   quiz_id:{
-    type:mongoose.Schema.Types.ObjectId,
-    required: true,},
+    type: String,
+    required: true,
+    unique: true,},
   name:{
     type: String,
     required: true,},
   description:{
     type: String},
+  image: { type: String, required: true },
   course_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Course', // Reference to the course
