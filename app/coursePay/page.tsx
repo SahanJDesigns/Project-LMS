@@ -11,6 +11,9 @@ const CoursePayPage: React.FC = () => {
   const [cvv, setCvv] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [country, setCountry] = useState(""); // New state for country input
+  const [error, setError] = useState(""); // State for error message
+  const countries = ["United States", "Canada", "United Kingdom", "Australia", "Germany"]; // Example country list
   const [courseName] = useState("React Development Course"); // Example course name
   const [coursePrice] = useState(99.99); // Example course price
 
@@ -19,6 +22,27 @@ const CoursePayPage: React.FC = () => {
   };
 
   const handlePayment = () => {
+    // Validate inputs
+    if (!firstName || !lastName || !cardNumber || !expiryDate || !cvv || !country) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
+    if (!/^\d{16}$/.test(cardNumber)) {
+      setError("Card number must be a 16 digit number.");
+      return;
+    }
+
+    if (!/^\d{3,4}$/.test(cvv)) {
+      setError("CVV must be a 3 or 4 digit number.");
+      return;
+    }
+
+    if (new Date(expiryDate) < new Date()) {
+      setError("Expiry date must be in the future.");
+      return;
+    }
+
     // Handle payment logic here
     console.log("Payment details:", {
       cardNumber,
@@ -26,7 +50,11 @@ const CoursePayPage: React.FC = () => {
       cvv,
       firstName,
       lastName,
+      country,
     });
+
+    // Clear error message if validation passes
+    setError("");
   };
 
   return (
@@ -53,6 +81,7 @@ const CoursePayPage: React.FC = () => {
           <div className="grid grid-cols-1 gap-6 mt-6">
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-lg font-bold mb-4">Payment Details</h2>
+              {error && <p className="text-red-500 mb-4">{error}</p>}
               <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-gray-700">First Name</label>
@@ -120,6 +149,21 @@ const CoursePayPage: React.FC = () => {
                     onChange={(e) => setCvv(e.target.value)}
                   />
                 </div>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Country</label>
+                <select
+                  className="px-4 py-2 border rounded-lg w-full"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                >
+                  <option value="">Select Country</option>
+                  {countries.map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex justify-center">
                 <button
