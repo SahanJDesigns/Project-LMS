@@ -1,0 +1,61 @@
+### Get all courses
+GET http://localhost:3000/api/course
+Content-Type: application/json
+
+###
+
+### Create a new course
+POST http://localhost:3000/api/course
+Content-Type: application/json
+
+{
+  "courseId": "course7",
+  "title": "Introduction to Mathematics",
+  "description": "Learn the basics of Mathematics.",
+  "category": "Mathematics",
+  "level": "Beginner",
+  "duration": {
+    "hours": 20,
+    "weeks": 8
+  },
+  "price": 39.99,
+  "thumbnail": "https://example.com/image5.jpg",
+  "rating": {
+    "average": 4.5,
+    "reviews": 100
+  },
+  "instructors": ["60d0fe4f5311236168a109e0"],
+  "lessons": ["60d0fe4f5311236168a109e1"],
+  "quizzes": ["60d0fe4f5311236168a109e2"],
+  "enrolledStudents": ["60d0fe4f5311236168a109e3"],
+  "comments": ["60d0fe4f5311236168a109e4"],
+  "language": "English",
+  "introduction": "Welcome to the Introduction to Mathematics course.",
+  "certification": true,
+  "instructorExperience": "5 years",
+  "imageUrl": "https://example.com/image5.jpg"
+}
+
+###
+
+### Update a course
+PATCH http://localhost:3000/api/course
+Content-Type: application/json
+
+{
+  "courseId": "course7",
+  "updateData": {
+    "title": "Advanced Mathematics",
+    "description": "Learn advanced concepts in Mathematics."
+  }
+}
+
+###
+
+### Delete a course
+DELETE http://localhost:3000/api/course
+Content-Type: application/json
+
+{
+  "courseId": "course7"
+}

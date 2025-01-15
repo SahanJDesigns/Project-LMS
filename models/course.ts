@@ -28,6 +28,7 @@ const courseSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  numberOfStudents: { type: Number, default: 0 },
 }, { timestamps: true });
 
 export default mongoose.models.Course || mongoose.model('Course', courseSchema);
