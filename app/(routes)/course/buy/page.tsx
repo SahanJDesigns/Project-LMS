@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from 'next/navigation';
-import Sidebar from "../../components/Sidebar";
-import CourseBuyCard from "../../components/CourseBuyCard";
-import DropdownMenu from "../../components/DropdownMenu";
-import PageSearchBox from "../../components/PageSearchBox";
+import Sidebar from "@/components/Sidebar";
+import CourseBuyCard from "@/components/CourseBuyCard";
+import DropdownMenu from "@/components/DropdownMenu";
+import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
 
 interface Course {
