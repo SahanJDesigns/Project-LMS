@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(parsedAmount * 100), // Convert to smallest currency unit
+      amount: parsedAmount, // Convert to smallest currency unit
       currency: 'usd',
     });
 
