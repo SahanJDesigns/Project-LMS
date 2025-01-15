@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+import Lesson from "./lesson"
+
+const lessonSchema = Lesson;
 
 const courseSchema = new mongoose.Schema({
-  courseId: { type: String, required: true, unique: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
@@ -16,10 +18,10 @@ const courseSchema = new mongoose.Schema({
     average: { type: Number, default: 0 },
     reviews: { type: Number, default: 0 },
   },
-  instructors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Instructor' }],
+  instructors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   lessons: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }],
   quizzes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Quiz' }],
-  enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
+  enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   language: { type: String, required: true },
   introduction: { type: String, required: true },
@@ -28,7 +30,6 @@ const courseSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  numberOfStudents: { type: Number, default: 0 },
 }, { timestamps: true });
 
 export default mongoose.models.Course || mongoose.model('Course', courseSchema);
