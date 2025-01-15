@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Sidebar from "../../components/Sidebar";
-import PageSearchBox from "../../components/PageSearchBox";
+import Sidebar from "@/components/Sidebar";
+import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
 
 export default function PaymentSuccess() {

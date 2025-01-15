@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Sidebar from "../../components/Sidebar";
-import PageSearchBox from "../../components/PageSearchBox";
+import Sidebar from "@/components/Sidebar";
+import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
 
 const CoursePayPage: React.FC = () => {
