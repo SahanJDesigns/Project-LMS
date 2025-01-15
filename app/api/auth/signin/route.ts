@@ -5,11 +5,11 @@ import connectMongo from '@/lib/dbconfig';
 import User from '@/models/user';
 
 export const POST = async (req: NextRequest) => {
-  const { email, password } = await req.json();
+  const { name, password } = await req.json();
 
   try {
     await connectMongo();
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ name });
 
     if (!user) {
       return new NextResponse(JSON.stringify({ error: 'Invalid email or password' }), { status: 401 });

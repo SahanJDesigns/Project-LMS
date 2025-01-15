@@ -1,9 +1,54 @@
+"use client";
+
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess("User created successfully");
+        setError("");
+        // Redirect to sign-in page or another page
+        router.push("/signin");
+      } else {
+        setError(data.error || "An error occurred");
+        setSuccess("");
+      }
+    } catch (error) {
+      setError("An error occurred");
+      setSuccess("");
+    }
+  };
+
   return (
-   
     <div className="font-sans min-h-screen flex items-center justify-center bg-gray-100">
       <Head>
         <title>Signup Page</title>
@@ -14,11 +59,23 @@ const Signup = () => {
           <div className="bg-white p-10 flex-1 flex flex-col justify-center">
             <h1 className="text-2xl mb-4">SIGN UP</h1>
             <p className="mb-4">How to get started lorem ipsum dolor at?</p>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <input
                   type="text"
                   placeholder="Username"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="w-full p-2 border border-gray-300 rounded"
                 />
@@ -27,6 +84,8 @@ const Signup = () => {
                 <input
                   type="password"
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="w-full p-2 border border-gray-300 rounded"
                 />
@@ -35,10 +94,14 @@ const Signup = () => {
                 <input
                   type="password"
                   placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
+              {error && <p className="text-red-500">{error}</p>}
+              {success && <p className="text-green-500">{success}</p>}
               <button
                 type="submit"
                 className="bg-indigo-600 text-white p-2 rounded mt-2"
@@ -68,7 +131,6 @@ const Signup = () => {
             {/* Rectangle 3 */}
             <div className="w-52 h-24 bg-white rounded-lg absolute top-5 left-7"></div>
 
-
             {/* Rectangle 5 */}
             <div className="w-24 h-12 bg-white bg-opacity-50 rounded absolute bottom-12 right-7"></div>
 
@@ -76,11 +138,10 @@ const Signup = () => {
             <Image
               className="w-64 h-auto relative mt-5"
               src="/image.png"
-              
               width={300}
               height={300}
               alt="Banner 1"
-               loading="eager"
+              loading="eager"
             />
 
             {/* Text */}
@@ -92,6 +153,6 @@ const Signup = () => {
       </main>
     </div>
   );
-}
+};
 
 export default Signup;
