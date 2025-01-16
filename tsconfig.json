@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/users/route.ts"
-  ],
+, "components/NavigationBar.tsx"  ],
   "exclude": [
     "node_modules"
   ]

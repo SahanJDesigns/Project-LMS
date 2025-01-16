@@ -7,18 +7,15 @@ import DropdownMenu from "@/components/DropdownMenu";
 import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
 import {ICourse} from "@/types/interfaces";
+import NavigationBar from "@/components/NavigationBar";
 
 const CoursePage: React.FC = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [sortValue, setSortValue] = useState("latest");
   const [categoryValue, setCategoryValue] = useState("all");
   const [courses, setCourses] = useState<ICourse[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
 
     useEffect(() => {
       const fetchCourses = async () => {
@@ -75,29 +72,20 @@ const CoursePage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex-1 p-6 bg-gray-100">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-          <div className="flex-1 ">
-            <Breadcrumb paths={[{ name: "Home", link: "/" }, { name: "Course" }]} />
-            <h1 className="text-2xl font-bold">Course</h1>
-          </div>
-          <div className="flex-1 justify-center">
-            <PageSearchBox />
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
+    <div className="flex flex-col lg:flex-row lg:ml-52" >
+      <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <div className="flex-1  bg-gray-100">
+        <NavigationBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+        <div className="bg-white p-6 m-3 rounded-lg shadow-md min-h-full">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-6 space-y-4 lg:space-y-0">
             <input
               type="text"
               placeholder="Search title ..."
-              className="px-4 py-2 border rounded-lg w-full lg:w-auto"
-              style={{ width: "200px" }}
+              className="px-4 py-2 border rounded-lg w-full lg:w-full mr-20"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <div className="flex flex-col md:flex-row md:justify-center md:space-x-4 space-y-4 md:space-y-0">
+            <div className="flex flex-col md:flex-row gap-4">
               <DropdownMenu
                 label="Sort"
                 options={sortOptions}
@@ -111,14 +99,12 @@ const CoursePage: React.FC = () => {
                 value={categoryValue}
               />
               <button
-                className="px-4 py-2 bg-blue-700 text-white rounded-full w-full md:w-36"
-                style={{ width: "150px" }}
+                className="p-1 bg-blue-700 text-white rounded-full w-36"
               >
                 Search Quiz
               </button>
               <button
-                className="px-4 py-2 bg-purple-700 text-white rounded-full w-full md:w-36"
-                style={{ width: "150px" }}
+                className="p-1 bg-purple-700 text-white rounded-full w-36"
                 onClick={handleNewCoursesClick}
               >
                 New Courses

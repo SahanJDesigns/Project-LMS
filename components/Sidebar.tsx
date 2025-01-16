@@ -1,17 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface SidebarProps {
-  isOpen: boolean;
-  toggleSidebar: () => void;
+  showSidebar: boolean;
+  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ showSidebar, setShowSidebar }) => {
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setShowSidebar(false);
+      }
+    };
+
+    if (showSidebar) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSidebar, setShowSidebar]);
+
   return (
     <div className="relative">
       <div
-        className={`fixed inset-y-0 left-0 transform ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-transform duration-300 ease-in-out w-64 h-screen bg-white shadow-md z-50`}
+        ref={sidebarRef}
+        className={`fixed inset-y-0 left-0 transform lg:translate-x-0 ${
+          showSidebar ? 'translate-x-0' : '-translate-x-full'
+        } transition-transform duration-300 ease-in-out w-52 h-screen bg-white shadow-md z-50`}
       >
         <div className="px-6 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-700">HORIZON FREE</h1>
@@ -28,14 +49,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           </ul>
         </nav>
       </div>
-      <button
-        onClick={toggleSidebar}
-        className={`fixed top-1/2 transform -translate-y-1/2 left-0 ${
-          isOpen ? 'translate-x-full' : 'translate-x-0'
-        } bg-blue-700 text-white p-2 rounded-full focus:outline-none z-50`}
-      >
-        {isOpen ? '←' : '→'}
-      </button>
     </div>
   );
 };
