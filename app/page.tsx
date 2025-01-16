@@ -6,7 +6,6 @@ export default function Home() {
         <ul>
           <li><Link href="/">Home</Link></li>
           <li><Link href="/course/course_description">Course</Link></li>
-          {/* Add other links here */}
         </ul>
       </nav>
   );
