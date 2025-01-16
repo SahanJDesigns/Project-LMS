@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectMongo from '@/lib/dbconfig';
-import Student from '../../../models/student';
-import Course from '../../../models/course';
+import Student from '../../../../models/student';
+import Course from '../../../../models/course';
 import { Types } from 'mongoose';
 
 export const GET = async (request: Request) => {
