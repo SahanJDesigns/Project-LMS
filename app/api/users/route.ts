@@ -3,8 +3,6 @@ import { Types } from "mongoose";
 import connectMongo from "@/lib/dbconfig";
 import User from "@/models/user";
 
-const ObjectId = require("mongoose").Types.ObjectId;
-
 export const GET = async () => {
   try {
     await connectMongo();
@@ -55,7 +53,6 @@ export const PATCH = async (request: Request) => {
     }
 
     const updatedUser = await User.findOneAndUpdate(
-      { _id: new ObjectId(userId) },
       { username: newUsername },
       { new: true }
     );

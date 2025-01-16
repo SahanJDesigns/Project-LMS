@@ -21,8 +21,14 @@ const courseSchema = new mongoose.Schema({
   quizzes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Quiz' }],
   enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  language: { type: String, required: true },
+  introduction: { type: String, required: true },
+  certification: { type: Boolean, default: false },
+  instructorExperience: { type: String, required: true },
+  imageUrl: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  numberOfStudents: { type: Number, default: 0 },
 }, { timestamps: true });
 
 export default mongoose.models.Course || mongoose.model('Course', courseSchema);
