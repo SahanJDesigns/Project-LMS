@@ -5,21 +5,16 @@ import User from '@/models/user';
 import { authOptions } from "../../auth/[...nextauth]/route"
 import { getServerSession } from "next-auth/next"
 import { NextApiRequest, NextApiResponse } from 'next';
-/*
+
 export const GET = async (request: NextRequest) => {
   try {
     await connectMongo();
-
-    if (!token) {
-      return new NextResponse(JSON.stringify({ message: "Unauthorized" }), { status: 401 });
+    const session = await getServerSession({ req: request, ...authOptions });
+    console.log(session);
+    const user_id = session?.user._id;
+    if (!user_id) {
+      return new NextResponse(JSON.stringify({ message: "You must be logged in." }), { status: 401 });
     }
-
-    if (!process.env.JWT_SECRET) {
-      return new NextResponse(JSON.stringify({ message: "JWT Secret not found" }), { status: 500 });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as { _id: string };
-    const user_id = decoded._id;
 
     const user = await User.findById(user_id).populate('enrolledCourses').exec();
 
@@ -31,8 +26,7 @@ export const GET = async (request: NextRequest) => {
   }
 };
 
-*/
-
+/*
 export const GET = async (request: NextRequest) => {
   const session = await getServerSession({ req: request, ...authOptions });
   console.log(session);
@@ -44,3 +38,4 @@ export const GET = async (request: NextRequest) => {
     message: "Success",
   }), { status: 200 });
 }
+  */

@@ -37,3 +37,6 @@ next-env.d.ts
 
 # environmental variables
 .env
+
+# uplaods
+/public/uploads

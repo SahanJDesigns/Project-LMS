@@ -6,21 +6,14 @@ import CourseCard from "@/components/CourseCard";
 import DropdownMenu from "@/components/DropdownMenu";
 import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
-
-interface Course {
-  title: string;
-  category: string;
-  thumbnail: string;
-  createdAt: string;
-}
+import {ICourse} from "@/types/interfaces";
 
 const CoursePage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [sortValue, setSortValue] = useState("latest");
   const [categoryValue, setCategoryValue] = useState("all");
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<ICourse[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const studentId = "6772b6f13bd058646febc9d9";
   const router = useRouter();
 
   const toggleSidebar = () => {
@@ -38,7 +31,6 @@ const CoursePage: React.FC = () => {
             credentials: 'include',
           });
           const data = await response.json();
-          console.log(data);
           setCourses(data);
         } catch (error) {
           console.error("Error fetching courses:", error);
@@ -79,7 +71,7 @@ const CoursePage: React.FC = () => {
     });
 
   const handleNewCoursesClick = () => {
-    router.push(`/coursebuy?studentId=${studentId}`);
+    router.push(`/course/toenroll`);
   };
 
   return (
@@ -139,7 +131,7 @@ const CoursePage: React.FC = () => {
                 key={index}
                 title={course.title}
                 category={course.category}
-                image={course.thumbnail}
+                image={course.imageUrl}
               />
             ))}
           </div>

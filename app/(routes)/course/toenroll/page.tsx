@@ -6,29 +6,16 @@ import CourseBuyCard from "@/components/CourseBuyCard";
 import DropdownMenu from "@/components/DropdownMenu";
 import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
+import { ICourse } from "@/types/course";
 
-interface Course {
-  title: string;
-  category: string;
-  rating: {
-    average: number;
-  };
-  numberOfStudents: number;
-  price: number;
-  thumbnail: string;
-  createdAt: string;
-}
 
 const CourseBuyPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [sortValue, setSortValue] = useState("latest");
   const [categoryValue, setCategoryValue] = useState("all");
   const [ratingValue, setRatingValue] = useState("all");
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<ICourse[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const studentId = searchParams.get('studentId');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -37,18 +24,23 @@ const CourseBuyPage: React.FC = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch(`/api/buycourse?studentId=${studentId}`);
+        const response = await fetch(`/api/course/toenroll`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
         const data = await response.json();
+        console.log(data);
         setCourses(data);
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
     };
-
-    if (studentId) {
       fetchCourses();
-    }
-  }, [studentId]);
+  }, []);
 
   const sortOptions = [
     { value: "latest", label: "Latest" },
@@ -139,9 +131,9 @@ const CourseBuyPage: React.FC = () => {
                 title={course.title}
                 category={course.category}
                 rating={course.rating.average}
-                students={course.numberOfStudents}
+                students={course.enrolledStudents?.length ?? 0}
                 price={course.price}
-                imageUrl={course.thumbnail}
+                imageUrl={course.imageUrl}
               />
             ))}
           </div>

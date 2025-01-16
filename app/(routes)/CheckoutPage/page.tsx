@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import Sidebar from "../../components/Sidebar";
-import PageSearchBox from "../../components/PageSearchBox";
+import Sidebar from "@/components/Sidebar";
+import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
 import CheckoutPage from "./CheckoutPage";
 
