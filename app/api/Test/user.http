@@ -4,18 +4,6 @@ Content-Type: application/json
 
 ###
 
-### Create a new user
-POST http://localhost:3000/api/users
-Content-Type: application/json
-
-{
-  "username": "newuser",
-  "email": "newuser@example.com",
-  "password": "password123"
-}
-
-###
-
 ### Update a user
 PATCH http://localhost:3000/api/users
 Content-Type: application/json

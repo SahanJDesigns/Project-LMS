@@ -1,6 +1,31 @@
+'use client';
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const LoginPage = () => {
+  const router = useRouter();
+  const haddleOnSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try{
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: e.currentTarget.username.value,
+          password: e.currentTarget.password.value,
+        }),
+        credentials: 'same-origin'
+      });
+
+      router.push("/course/enrolled");
+    } catch (error) {
+      console.error(error);
+    }
+      
+  }
+
   return (
     <div className="flex min-h-screen bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">
       {/* Left Section */}
@@ -26,7 +51,7 @@ const LoginPage = () => {
         <p className="text-gray-500 mb-6">
           How do I get started lorem ipsum dolor at?
         </p>
-        <form className="w-full max-w-sm space-y-4">
+        <form onSubmit={haddleOnSubmit} className="w-full max-w-sm space-y-4">
           <div>
             <label
               htmlFor="username"

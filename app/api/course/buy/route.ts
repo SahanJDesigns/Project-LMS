@@ -1,39 +1,26 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import connectMongo from '@/lib/dbconfig';
-import Student from '../../../../models/student';
-import Course from '../../../../models/course';
+import {Course, User} from '@/models/models';
 import { Types } from 'mongoose';
+import jwt from 'jsonwebtoken';
 
-export const GET = async (request: Request) => {
+export const GET = async (request: NextRequest) => {
   try {
     await connectMongo();
-    const { searchParams } = new URL(request.url);
-    const studentId = searchParams.get('studentId');
+    const token = request.cookies.get('token')?.value;
+        if (!token) {
+          return new NextResponse(JSON.stringify({ message: "Unauthorized" }), { status: 401 });
+        }
+    
+        if (!process.env.JWT_SECRET) {
+          return new NextResponse(JSON.stringify({ message: "JWT Secret not found" }), { status: 500 });
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET) as { _id: string };
+        const user_id = decoded._id;
 
-    if (!studentId) {
-      return new NextResponse(JSON.stringify({ message: "Student ID not found" }), { status: 400 });
-    }
-
-    if (!Types.ObjectId.isValid(studentId)) {
-      return new NextResponse(JSON.stringify({ message: "Invalid Student ID" }), { status: 400 });
-    }
-
-    const student = await Student.findById(studentId).populate('enrolledCourses');
-
-    if (!student) {
-      return new NextResponse(JSON.stringify({ message: "Student not found in the database" }), { status: 404 });
-    }
-
-    interface EnrolledCourse {
-        _id: Types.ObjectId;
-    }
-
-    interface StudentDocument {
-        enrolledCourses: EnrolledCourse[];
-    }
-
-    const enrolledCourseIds: Types.ObjectId[] = (student as StudentDocument).enrolledCourses.map(course => course._id);
-    const coursesNotEnrolled = await Course.find({ _id: { $nin: enrolledCourseIds } }).select('title category thumbnail price rating.average numberOfStudents createdAt');
+       const user = await User.findById(user_id);
+       const enrolledCourses = user.enrolledCourses
+       const coursesNotEnrolled = await Course.find({ _id: { $nin: enrolledCourses } }).select('title category thumbnail price rating.average numberOfStudents createdAt');
 
     return new NextResponse(JSON.stringify(coursesNotEnrolled), { status: 200 });
   } catch (error: any) {

@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import Lesson from "./lesson"
 
-const lessonSchema = Lesson;
 
 const courseSchema = new mongoose.Schema({
   title: { type: String, required: true },

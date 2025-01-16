@@ -1,3 +1,4 @@
+// To do: find useage of this file in the project
 import { NextResponse } from 'next/server';
 import connectMongo from '@/lib/dbconfig';
 import Lesson from '../../../models/lesson';

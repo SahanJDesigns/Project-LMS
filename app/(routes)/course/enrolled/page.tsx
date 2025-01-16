@@ -27,19 +27,26 @@ const CoursePage: React.FC = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch(`/api/studentcourse?studentId=${studentId}`);
-        const data = await response.json();
-        setCourses(data);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      }
-    };
-
-    fetchCourses();
-  }, [studentId]);
+    useEffect(() => {
+      const fetchCourses = async () => {
+        try {
+          const response = await fetch(`/api/course/enrolled`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+          });
+          const data = await response.json();
+          console.log(data);
+          setCourses(data);
+        } catch (error) {
+          console.error("Error fetching courses:", error);
+        }
+      };
+  
+      fetchCourses();
+    }, []);
 
   const sortOptions = [
     { value: "latest", label: "Latest" },
