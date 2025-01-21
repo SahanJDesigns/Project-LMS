@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongoose';
 
 export interface IUser {
+  _id: ObjectId;
   role: 'Student' | 'Instructor' | 'Admin';
   name: {
     firstName: string;

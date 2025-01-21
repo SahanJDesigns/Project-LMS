@@ -11,7 +11,6 @@ export const GET = async (request: NextRequest) => {
     await connectMongo();
 
     const session = await getServerSession({ req: request, ...authOptions });
-    console.log(session);
     const user_id = session?.user._id;
 
     if (!user_id) {

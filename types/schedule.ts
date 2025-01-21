@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongoose';
 
 export interface ISchedule {
+  _id: ObjectId;
   scheduleId: string;
   student: ObjectId;
   items: {

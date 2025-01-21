@@ -8,6 +8,7 @@ import QuizAttempt  from './quizAttempt';
 import Resourse  from './resource';
 import Schedule  from './schedule';
 import User  from './user';
+import Video  from './video';
 
 export {
   Comment,
@@ -19,5 +20,6 @@ export {
   QuizAttempt,
   Resourse,
   Schedule,
-  User
+  User,
+  Video,
 };

@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongoose';
 
 export interface ILesson {
+  _id: ObjectId;
   title: string;
   description: string;
   videoDuration: number;

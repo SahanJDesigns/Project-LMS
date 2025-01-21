@@ -29,12 +29,13 @@
     "target": "ES2017"
   },
   "include": [
+    "video.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/users/route.ts"
-, "components/NavigationBar.tsx"  ],
+, "components/NavigationBar.tsx", "app/(routes)/lesson/[lesson_id]/upload/page.jsx", "app/mux-webhook/route.ts", "app/(routes)/lesson/[lesson_id]/upload/page.tsx"  ],
   "exclude": [
     "node_modules"
   ]

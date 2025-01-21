@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongoose';
 
 export interface ICourse {
+  _id: ObjectId;
   title: string;
   description: string;
   category: string;
