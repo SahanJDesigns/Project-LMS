@@ -2,19 +2,30 @@ import { formatTime } from "@/lib/utils";
 import { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoMdTrash } from "react-icons/io";
+import { useGlobalState } from "../StateContext";
+import { useParams } from "next/navigation";
 
-interface CourseContentProps {
-  course_id: string;
-  lessons: any[];
-  setLessons: React.Dispatch<React.SetStateAction<any[]>>;
-  selectedLesson: any;
-  setSelectedLesson: (lesson: any) => void;
-  setVideoLink: (url: string) => void;
-}
 
-const CourseContent: React.FC<CourseContentProps> = ({ course_id, lessons, selectedLesson, setLessons, setSelectedLesson, setVideoLink }) => {
+
+const CourseContent: React.FC = () => {
   const [editingLesson, setEditingLesson] = useState<any>(null);
   const [editingTitle, setEditingTitle] = useState<string>("");
+  const params = useParams();
+  const course_id = params?.course_id as string;
+  const { 
+    lessons,
+    setLessons,
+    videolink,
+    setVideoLink,
+    selectedLesson,
+    setSelectedLesson,
+    isVideoUploaderOpen,
+    setIsVideoUploaderOpen,
+    isResourceUploaderOpen,
+    setIsResourceUploaderOpen,
+    resources,
+    setResources
+  } = useGlobalState();
 
   const haddleAddNewLesson = () => {
     fetch('/api/lesson/edit/new', {

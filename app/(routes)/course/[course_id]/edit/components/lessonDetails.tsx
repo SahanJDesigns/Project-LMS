@@ -1,17 +1,28 @@
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import Resources from './resources';
+import { useGlobalState } from '../StateContext';
 
-interface CourseContentProps {
-  selectedLesson: any;
-  setSelectedLesson: (lesson: any) => void;
-}
 
-const LessonDetails: React.FC<CourseContentProps> = ({ selectedLesson, setSelectedLesson }) => {
+
+const LessonDetails: React.FC = () => {
   const [editing, setEditing] = useState("");
   const [editingContent, setEditingContent] = useState("");
   const [view, setView] = useState('Resources');
-  const [resources] = useState([]);
+  const { 
+          lessons,
+          setLessons,
+          videolink,
+          setVideoLink,
+          selectedLesson,
+          setSelectedLesson,
+          isVideoUploaderOpen,
+          setIsVideoUploaderOpen,
+          isResourceUploaderOpen,
+          setIsResourceUploaderOpen,
+          resources,
+          setResources
+        } = useGlobalState();
 
   const handleDoubleClick = (field: string) => {
     setEditing(field);
@@ -120,7 +131,7 @@ const LessonDetails: React.FC<CourseContentProps> = ({ selectedLesson, setSelect
 
       {/* Resources or comments view panel */}
       <div className='bg-gray-100 rounded-lg shadow-md'>
-        <Resources resources={resources} />
+        <Resources/>
       </div>
     </div>
   );

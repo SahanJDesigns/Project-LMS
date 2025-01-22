@@ -1,16 +1,48 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { FaDownload } from 'react-icons/fa'
 import { IoMdAddCircle } from "react-icons/io";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle, 
+  } from "@/components/ui/dialog"
+import ResourceUploader from './resourceUploader';
+import { useGlobalState } from '../StateContext';
 
-interface ResourcesProps {
-    resources: any[]
-}
 
-function Resources({ resources }: ResourcesProps) {
-    const haddleAddNewResourse = () => {
-        console.log('Add new resource')
-    }
+const  Resources:React.FC = () => {
+     const { 
+        lessons,
+        setLessons,
+        videolink,
+        setVideoLink,
+        selectedLesson,
+        setSelectedLesson,
+        isVideoUploaderOpen,
+        setIsVideoUploaderOpen,
+        isResourceUploaderOpen,
+        setIsResourceUploaderOpen,
+        resources,
+        setResources
+      } = useGlobalState();
+
+      useEffect(() => {
+        const fetchResources = async () => {
+          const res = await fetch(`/api/lesson/${selectedLesson._id}/resource`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const data = await res.json();
+          setResources(data);
+        };
+        fetchResources();
+      }, [selectedLesson]);
+
     return (
           <div className="p-4">
             <h4 className="text-lg font-semibold mb-2">Resources</h4>
@@ -41,9 +73,20 @@ function Resources({ resources }: ResourcesProps) {
                         </div>
                     ))}
                     <div className='bg-white w-full justify-center items-center flex min-h-16 hover:opacity-75' 
-                        onClick={()=>haddleAddNewResourse()}>
+                        onClick={()=>setIsResourceUploaderOpen(true)}>
                             <IoMdAddCircle className='text-4xl'/>
                     </div>
+                    <Dialog open={isResourceUploaderOpen} onOpenChange={setIsResourceUploaderOpen}>
+                        <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Add your resources here</DialogTitle>
+                            <DialogDescription>
+                            Please upload a resource file to add a lesson to this course.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <ResourceUploader/>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </div>
         </div>

@@ -4,17 +4,24 @@ import { ILesson } from '@/types/lesson';
 import Mux from '@mux/mux-node';
 import MuxUploader from '@mux/mux-uploader-react';
 import React, { useEffect, useState } from 'react';
+import { useGlobalState } from '../StateContext';
 
-interface VideoUploaderProps {
-  lessons: ILesson[];
-  setLessons: React.Dispatch<React.SetStateAction<ILesson[]>>;
-  setIsUploaderOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedLesson: ILesson;
-  setSelectedLesson: React.Dispatch<React.SetStateAction<any>>;
-}
 
-export default function VideoUploader({lessons, setLessons, selectedLesson, setSelectedLesson,setIsUploaderOpen }: VideoUploaderProps) {
+
+export default function VideoUploader() {
   const [directUpload, setDirectUpload] = useState<Mux.Video.Uploads.Upload | null>(null);
+   const { 
+      lessons,
+      setLessons,
+      videolink,
+      setVideoLink,
+      selectedLesson,
+      setSelectedLesson,
+      isVideoUploaderOpen,
+      setIsVideoUploaderOpen,
+      isResourceUploaderOpen,
+      setIsResourceUploaderOpen
+    } = useGlobalState();
 
   const handleOnSuccess = async() => {
     await fetch(`/api/lesson/edit/video`, {
@@ -34,7 +41,7 @@ export default function VideoUploader({lessons, setLessons, selectedLesson, setS
       })
       .catch((error) => console.error('Error:', error));
     console.log('Video uploaded successfully');
-    setIsUploaderOpen(false);
+    setIsVideoUploaderOpen(false);
   }
 
   useEffect(() => {
