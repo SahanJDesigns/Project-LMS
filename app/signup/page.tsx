@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Head from "next/head";
-import Image from "next/image";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
-const Signup = () => {
+const SignupPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,109 +49,135 @@ const Signup = () => {
 
   return (
     <div className="font-sans min-h-screen flex items-center justify-center bg-gray-100">
-      <Head>
-        <title>Signup Page</title>
-      </Head>
-      <main className="max-w-6xl w-full flex shadow-lg">
-        <div className="flex w-full">
-          {/* Left Section */}
-          <div className="bg-white p-10 flex-1 flex flex-col justify-center">
-            <h1 className="text-2xl mb-4">SIGN UP</h1>
-            <p className="mb-4">How to get started lorem ipsum dolor at?</p>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <input
-                  type="text"
-                  placeholder="Username"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              </div>
-              {error && <p className="text-red-500">{error}</p>}
-              {success && <p className="text-green-500">{success}</p>}
-              <button
-                type="submit"
-                className="bg-indigo-600 text-white p-2 rounded mt-2"
+      <div className="flex min-h-screen bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 my-20">
+        {/* Left Section */}
+        <div className="w-1/3 flex items-center justify-center p-10">
+          <div className="text-white">
+            <h1 className="text-4xl font-bold mb-4">
+              Very good works are waiting for you
+            </h1>
+            <p className="text-2xl font-semibold">Sign Up Now!!!</p>
+            <div className="mt-10">
+              <img
+                src="/contact-10.svg"
+                alt="Illustration"
+                width={1000}
+                height={1000}
+                className="w-full max-w-lg"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <div className="w-2/3 bg-white flex flex-col items-center justify-center p-10">
+          <h2 className="text-2xl font-bold mb-2">SIGN UP</h2>
+          <p className="text-gray-500 mb-6">
+            How do I get started lorem ipsum dolor at?
+          </p>
+          <form className="w-full max-w-sm space-y-4" onSubmit={handleSubmit}>
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-gray-700 font-medium mb-1"
               >
-                Create Account
-              </button>
-            </form>
-            <p className="mt-4">Login with Others</p>
-            <button className="bg-white text-gray-800 border border-gray-300 p-2 rounded flex items-center justify-center mt-2">
-              <Image
-                src="/icon-google0.svg"
-                width={20}
-                height={20}
-                alt="Google Icon"
-                className="w-5 mr-2"
-                loading="eager"
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+            {error && <p className="text-red-500">{error}</p>}
+            {success && <p className="text-green-500">{success}</p>}
+            <button
+              type="submit"
+              className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
+            >
+              Sign Up
+            </button>
+          </form>
+          <div className="mt-6 w-full text-center">
+            <p className="text-gray-500">Sign up with Others</p>
+            <button
+              className="mt-3 w-full flex items-center justify-center border py-2 rounded-md hover:bg-gray-100"
+              onClick={() => signIn("google")}
+            >
+              <img
+              src="/icon-google0.svg"
+              alt="Google logo"
+              className="w-5 h-5 mr-2"
               />
               Sign up with Google
             </button>
-            <p className="mt-4">
-              Already have an account? <a href="/signin">Log in</a>
-            </p>
+            {/* Add more provider buttons here */}
           </div>
-
-          {/* Right Section */}
-          <div className="flex-1 bg-gradient-to-br from-indigo-600 to-indigo-500 text-white flex flex-col justify-center items-center text-center p-10 relative">
-            {/* Rectangle 3 */}
-            <div className="w-52 h-24 bg-white rounded-lg absolute top-5 left-7"></div>
-
-            {/* Rectangle 5 */}
-            <div className="w-24 h-12 bg-white bg-opacity-50 rounded absolute bottom-12 right-7"></div>
-
-            {/* Illustration - SVG Image (banner-1-10.svg) */}
-            <Image
-              className="w-64 h-auto relative mt-5"
-              src="/image.png"
-              width={300}
-              height={300}
-              alt="Banner 1"
-              loading="eager"
-            />
-
-            {/* Text */}
-            <h2 className="text-xl mt-5">
-              Very good works are waiting for you Login Now!!!
-            </h2>
-          </div>
+          <p className="mt-6 text-gray-600">
+            Already have an account?{" "}
+            <a href="/signin" className="text-purple-500 hover:underline">
+              Sign in
+            </a>
+          </p>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
 
-export default Signup;
+export default SignupPage;

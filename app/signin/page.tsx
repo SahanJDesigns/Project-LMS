@@ -16,7 +16,7 @@ const LoginPage = () => {
 
     const result = await signIn("credentials", {
       redirect: false,
-      email: username,
+      username,
       password,
     });
 

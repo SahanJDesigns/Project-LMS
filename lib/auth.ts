@@ -1,11 +1,11 @@
-import NextAuth, { Session } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import connectMongo from '@/lib/dbconfig';
-import User from '@/models/user';
-import bcrypt from 'bcryptjs';
+import { NextAuthOptions, Session } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import connectMongo from "@/lib/dbconfig";
+import User from "@/models/user";
+import bcrypt from "bcryptjs";
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session {
     user: {
       id: string;
@@ -16,17 +16,22 @@ declare module 'next-auth' {
   }
 }
 
-export default NextAuth({
+export const authConfig: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: "openid profile email",
+        },
+      },
     }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
         await connectMongo();
@@ -34,14 +39,13 @@ export default NextAuth({
           return null;
         }
 
-        const user = await User.findOne({ email: credentials.email }) as { _id: string, name: string, email: string, password: string };
+        const user = await User.findOne({ name: credentials.username }) as { _id: string, name: string, email: string, password: string };
 
         if (user && bcrypt.compareSync(credentials.password, user.password)) {
           return {
             id: user._id.toString(),
             name: user.name,
             email: user.email,
-            
           };
         } else {
           return null;
@@ -64,6 +68,6 @@ export default NextAuth({
     },
   },
   pages: {
-    signIn: '/signin',
+    signIn: "/signin",
   },
-});
+};
