@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useGlobalState } from '../StateContext';
+import { useGlobalState } from '../stateContext';
 import { Progress } from "@/components/ui/progress"
 
 const ResourceUploader: React.FC = () => {

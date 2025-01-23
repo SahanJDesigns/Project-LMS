@@ -4,7 +4,7 @@ import { ILesson } from '@/types/lesson';
 import Mux from '@mux/mux-node';
 import MuxUploader from '@mux/mux-uploader-react';
 import React, { useEffect, useState } from 'react';
-import { useGlobalState } from '../StateContext';
+import { useGlobalState } from '../stateContext';
 
 
 

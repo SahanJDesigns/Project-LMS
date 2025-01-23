@@ -10,7 +10,7 @@ import {
     DialogTitle, 
   } from "@/components/ui/dialog"
 import ResourceUploader from './resourceUploader';
-import { useGlobalState } from '../StateContext';
+import { useGlobalState } from '../stateContext';
 
 
 const  Resources:React.FC = () => {
@@ -31,6 +31,7 @@ const  Resources:React.FC = () => {
 
       useEffect(() => {
         const fetchResources = async () => {
+          if (!selectedLesson) return;
           const res = await fetch(`/api/lesson/${selectedLesson._id}/resource`, {
             method: "GET",
             headers: {

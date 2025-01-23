@@ -2,7 +2,7 @@ import { formatTime } from "@/lib/utils";
 import { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoMdTrash } from "react-icons/io";
-import { useGlobalState } from "../StateContext";
+import { useGlobalState } from "../stateContext";
 import { useParams } from "next/navigation";
 
 

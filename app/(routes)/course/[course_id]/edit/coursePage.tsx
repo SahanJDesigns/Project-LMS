@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/dialog"
 import VideoUploader from './components/videoUploader'
 import { set } from 'mongoose';
-import VideoPlayer from './components/player';
-import { useGlobalState } from './StateContext';
+import VideoPlayer from '@/components/player';
+import { useGlobalState } from './stateContext';
 
 
 interface CourseParams {
@@ -53,6 +53,7 @@ function Course() {
       .then((response) => response.json())
       .then((data) => {
         setLessons(data);
+        console.log(data);
         setVideoLink(data[0]?.video || '');
         setSelectedLesson(data[0] || null);
       })

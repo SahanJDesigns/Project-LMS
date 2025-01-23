@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import Resources from './resources';
-import { useGlobalState } from '../StateContext';
+import { useGlobalState } from '../stateContext';
 
 
 
