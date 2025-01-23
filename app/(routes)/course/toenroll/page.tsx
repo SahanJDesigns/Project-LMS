@@ -81,7 +81,7 @@ const CourseBuyPage: React.FC = () => {
     });
 
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="lg:ml-52">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex-1 p-6 bg-gray-100">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
