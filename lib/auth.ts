@@ -1,20 +1,18 @@
-import { NextAuthOptions, Session } from "next-auth";
+import { NextAuthOptions, Session as NextAuthSession } from "next-auth";
+
+interface Session extends NextAuthSession {
+  user: {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+}
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectMongo from "@/lib/dbconfig";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
-
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    };
-  }
-}
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -54,9 +52,24 @@ export const authConfig: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      await connectMongo();
+      if (account && account.provider === "google") {
+        const existingUser = await User.findOne({ email: user.email });
+        if (!existingUser) {
+          const newUser = new User({
+            name: user.name,
+            email: user.email,
+            password: undefined, // Password is not needed for Google sign-in
+          });
+          await newUser.save();
+        }
+      }
+      return true;
+    },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
+        (session.user as Session["user"]).id = token.id as string;
       }
       return session;
     },
