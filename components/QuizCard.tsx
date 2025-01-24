@@ -13,7 +13,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ quiz_id, title, category, image }) 
   return (
     <div
       className="bg-gray-100 shadow-md rounded-lg overflow-hidden"
-      onClick={() => router.push(`/question/setup/${quiz_id}`)} 
+      onClick={() => router.push(`/quiz/${quiz_id}`)} 
     >
       <div className="p-2 rounded-lg overflow-hidden">
         <img

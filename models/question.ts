@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const QuestionSchema = new mongoose.Schema({
   quiz: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Quiz', // Reference to the quiz
     required: true,
   },
