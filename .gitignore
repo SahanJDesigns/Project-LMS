@@ -37,3 +37,12 @@ next-env.d.ts
 
 # environmental variables
 .env
+
+# uplaods
+/public/uploads
+# next-video
+videos/*
+!videos/*.json
+!videos/*.js
+!videos/*.ts
+public/_next-video

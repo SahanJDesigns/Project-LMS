@@ -1,0 +1,3 @@
+### Get enrolled courses by student ID
+GET http://localhost:3000/api/studentcourse?studentId=6772b6f13bd058646febc9d9
+Content-Type: application/json
