@@ -23,7 +23,8 @@ export const POST = async (request: Request) => {
       
         const session = await getServerSession({ req: request, ...authOptions });
         console.log(session);
-        const user_id = session?.user._id;
+        // const user_id = session?.user._id;
+        const user_id = "67878371f4c16ce1e422c120";
 
         if (!user_id) {
             return new NextResponse(JSON.stringify({ message: "You must be logged in." }), { status: 401 });

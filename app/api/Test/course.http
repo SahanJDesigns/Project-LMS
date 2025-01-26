@@ -59,3 +59,18 @@ Content-Type: application/json
 {
   "courseId": "course7"
 }
+
+
+###
+GET http://localhost:3000/api/course/enrolled
+Content-Type: application/json
+
+### Find courses by category
+### Find user's courses by category
+GET http://localhost:3000/api/course/enrolledcategory?userId=67878371f4c16ce1e422c120&category=Technology
+Content-Type: application/json
+
+
+### Get count of enrolled courses by category
+GET http://localhost:3000/api/course/count?category=all
+Content-Type: application/json

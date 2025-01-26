@@ -6,7 +6,7 @@ import CourseCard from "@/components/CourseCard";
 import DropdownMenu from "@/components/DropdownMenu";
 import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
-import {ICourse} from "@/types/interfaces";
+import { ICourse } from "@/types/interfaces";
 import NavigationBar from "@/components/NavigationBar";
 
 const CoursePage: React.FC = () => {
@@ -15,27 +15,49 @@ const CoursePage: React.FC = () => {
   const [categoryValue, setCategoryValue] = useState("all");
   const [courses, setCourses] = useState<ICourse[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
+  const userId = "67878371f4c16ce1e422c120";
 
-    useEffect(() => {
-      const fetchCourses = async () => {
-        try {
-          const response = await fetch(`/api/course/enrolled`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-          });
-          const data = await response.json();
-          setCourses(data);
-        } catch (error) {
-          console.error("Error fetching courses:", error);
-        }
-      };
-  
-      fetchCourses();
-    }, []);
+  const fetchTotalCourses = async (category: string) => {
+    try {
+      const response = await fetch(`/api/course/count?category=${category}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      setTotalPages(data.totalCourses); // Assuming 10 courses per page
+      console.log(data.totalCourses)
+    } catch (error) {
+      console.error("Error fetching total courses:", error);
+    }
+  };
+
+  const fetchCourses = async (page: number, category: string) => {
+    try {
+      const response = await fetch(`/api/course/enrolled?userId=${userId}&category=${category}&page=${page}&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      setCourses(data.courses);
+      setCurrentPage(data.currentPage);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTotalCourses(categoryValue);
+    fetchCourses(1, categoryValue);
+  }, [categoryValue]);
 
   const sortOptions = [
     { value: "latest", label: "Latest" },
@@ -49,14 +71,14 @@ const CoursePage: React.FC = () => {
     { value: "design", label: "Design" },
     { value: "physics", label: "Physics" },
     { value: "mathematics", label: "Mathematics" },
+    { value: "Technology", label: "Technology" },
     // Add more categories as needed
   ];
 
-  const filteredCourses = courses
+  const filteredAndSortedCourses = courses
     .filter(course => {
-      const matchesCategory = categoryValue === "all" || course.category.toLowerCase() === categoryValue.toLowerCase();
       const matchesSearchTerm = course.title.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearchTerm;
+      return matchesSearchTerm;
     })
     .sort((a, b) => {
       if (sortValue === "latest") {
@@ -71,10 +93,14 @@ const CoursePage: React.FC = () => {
     router.push(`/course/toenroll`);
   };
 
+  const handlePageChange = (page: number) => {
+    fetchCourses(page, categoryValue);
+  };
+
   return (
-    <div className="flex flex-col lg:flex-row lg:ml-52" >
+    <div className="flex flex-col lg:flex-row lg:ml-52">
       <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <div className="flex-1  bg-gray-100">
+      <div className="flex-1 bg-gray-100">
         <NavigationBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         <div className="bg-white p-6 m-3 rounded-lg shadow-md min-h-full">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-6 space-y-4 lg:space-y-0">
@@ -112,7 +138,7 @@ const CoursePage: React.FC = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-            {filteredCourses.map((course, index) => (
+            {filteredAndSortedCourses.map((course, index) => (
               <CourseCard
                 key={index}
                 title={course.title}
@@ -123,11 +149,15 @@ const CoursePage: React.FC = () => {
           </div>
         </div>
         <div className="mt-6 flex justify-center items-center space-x-2">
-          <button className="px-3 py-1 bg-gray-300 rounded-md">1</button>
-          <button className="px-3 py-1 bg-blue-700 text-white rounded-md">
-            2
-          </button>
-          <button className="px-3 py-1 bg-gray-300 rounded-md">3</button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              className={`px-3 py-1 rounded-md ${currentPage === index + 1 ? 'bg-blue-700 text-white' : 'bg-gray-300'}`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
     </div>
