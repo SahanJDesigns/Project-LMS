@@ -1,13 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Sidebar from "@/components/Sidebar";
 import CourseBuyCard from "@/components/CourseBuyCard";
 import DropdownMenu from "@/components/DropdownMenu";
 import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
 import { ICourse } from "@/types/course";
-
 
 const CourseBuyPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,31 +15,49 @@ const CourseBuyPage: React.FC = () => {
   const [ratingValue, setRatingValue] = useState("all");
   const [courses, setCourses] = useState<ICourse[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const userId = "67878371f4c16ce1e422c120";
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+  const fetchTotalCourses = async (category: string) => {
+    try {
+      const response = await fetch(`/api/course/ncount?category=${category}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      setTotalPages(Math.ceil(data.totalCourses)); // Assuming 10 courses per page
+    } catch (error) {
+      console.error("Error fetching total courses:", error);
+    }
+  };
+
+  const fetchCourses = async (page: number, category: string) => {
+    try {
+      const response = await fetch(`/api/course/toenroll?category=${category}&page=${page}&limit=1`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      // console.log(data.courses)
+      setCourses(data.courses);
+      setCurrentPage(data.currentPage);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
   };
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch(`/api/course/toenroll`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-
-        const data = await response.json();
-        console.log(data);
-        setCourses(data);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      }
-    };
-      fetchCourses();
-  }, []);
+    fetchTotalCourses(categoryValue);
+    fetchCourses(1, categoryValue);
+  }, [categoryValue]);
 
   const sortOptions = [
     { value: "latest", label: "Latest" },
@@ -52,7 +69,9 @@ const CourseBuyPage: React.FC = () => {
     { value: "development", label: "Development" },
     { value: "programming", label: "Programming" },
     { value: "design", label: "Design" },
-    // Add more categories as needed
+    { value: "physics", label: "Physics" },
+    { value: "mathematics", label: "Mathematics" },
+    { value: "Technology", label: "Technology" },
   ];
 
   const ratingOptions = [
@@ -80,9 +99,13 @@ const CourseBuyPage: React.FC = () => {
       return 0;
     });
 
+  const handlePageChange = (page: number) => {
+    fetchCourses(page, categoryValue);
+  };
+
   return (
     <div className="lg:ml-52">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      {/* <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /> */}
       <div className="flex-1 p-6 bg-gray-100">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
           <div className="flex-1 ">
@@ -139,11 +162,15 @@ const CourseBuyPage: React.FC = () => {
           </div>
         </div>
         <div className="mt-6 flex justify-center items-center space-x-2">
-          <button className="px-3 py-1 bg-gray-300 rounded-md">1</button>
-          <button className="px-3 py-1 bg-blue-700 text-white rounded-md">
-            2
-          </button>
-          <button className="px-3 py-1 bg-gray-300 rounded-md">3</button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              className={`px-3 py-1 rounded-md ${currentPage === index + 1 ? 'bg-blue-700 text-white' : 'bg-gray-300'}`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
     </div>

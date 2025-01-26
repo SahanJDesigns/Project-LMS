@@ -74,3 +74,12 @@ Content-Type: application/json
 ### Get count of enrolled courses by category
 GET http://localhost:3000/api/course/count?category=all
 Content-Type: application/json
+
+
+### Fetch courses not enrolled by the user with pagination and category filtering
+GET http://localhost:3000/api/course/toenroll?category=Technology&page=1&limit=10
+Content-Type: application/json
+
+### Get count of courses not enrolled by the user with category filtering
+GET http://localhost:3000/api/course/ncount?category=Technology
+Content-Type: application/json
