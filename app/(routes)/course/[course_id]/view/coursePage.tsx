@@ -10,8 +10,6 @@ import { VscRunErrors } from "react-icons/vsc";
 import { Skeleton } from '@/components/ui/skeleton';
 
 function Course() {
-  const params = useParams();
-  const course_id = params?.course_id as string;
   
   const { 
     setLessons,
@@ -22,24 +20,6 @@ function Course() {
     setLoading,
   } = useGlobalState();
 
-  useEffect(() => {
-    setLoading(true);
-    fetch('/api/lesson', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ course_id: course_id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setLessons(data);
-        setSelectedLesson(data[0] || null);
-        setVideoLink(data[0]?.video || '');
-        setLoading(false);
-      })
-      .catch((error) => console.error('Error fetching lessons:', error));
-  }, [course_id, setLessons, setVideoLink]);
 
   return (
     <div className="grid lg:grid-cols-3">

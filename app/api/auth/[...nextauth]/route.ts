@@ -2,6 +2,7 @@ import { User } from '@/models/models';
 import connectMongo from '@/lib/dbconfig';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
 declare module 'next-auth' {
   interface Session {
@@ -54,12 +55,19 @@ const options: NextAuthOptions = {
         throw new Error('Invalid email or password');
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET?? "",
+    })
   ],
   session: {
     strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
+
+      console.log(user);
+      
       if (user) {
         token._id = user.id;
       }
