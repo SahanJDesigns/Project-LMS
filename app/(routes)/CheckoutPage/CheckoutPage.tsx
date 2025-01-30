@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import {
   useStripe,
@@ -15,9 +14,9 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
-  
   useEffect(() => {
     console.log("amount from checkout page", amount);
+    {/*give the new route*/}
     if (amount){fetch("/api/create-payment-intent", {
         method: "POST",
         headers: {

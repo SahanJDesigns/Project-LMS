@@ -6,7 +6,7 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
   return (
-    <nav aria-label="breadcrumb" style={{ fontSize: "14px", color: "#a5a5c3" }}>
+    <div aria-label="breadcrumb" className="text-sm">
       {paths.map((path, index) => (
         <span key={index}>
           {path.link ? (
@@ -26,7 +26,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
           {index < paths.length - 1 && <span> / </span>}
         </span>
       ))}
-    </nav>
+    </div>
   );
 };
 

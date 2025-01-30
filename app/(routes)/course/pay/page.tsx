@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
+import { Navigation } from "lucide-react";
+import NavigationBar from "@/components/NavigationBar";
 
 const CoursePayPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,9 +19,6 @@ const CoursePayPage: React.FC = () => {
   const [courseName] = useState("React Development Course"); // Example course name
   const [coursePrice] = useState(99.99); // Example course price
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
 
   const handlePayment = () => {
     // Validate inputs
@@ -58,8 +57,9 @@ const CoursePayPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+    <div className="flex flex-col lg:flex-row lg:ml-52">
+      <Sidebar showSidebar={isSidebarOpen} setShowSidebar={setIsSidebarOpen} />
+      <NavigationBar showSidebar={isSidebarOpen} setShowSidebar={setIsSidebarOpen} />
       <div className="flex-1 p-6 bg-gray-100">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
           <div className="flex-1 ">

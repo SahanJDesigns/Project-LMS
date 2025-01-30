@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import PageSearchBox from "@/components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
 import CheckoutPage from "./CheckoutPage";
+import NavigationBar from "@/components/NavigationBar";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
@@ -19,26 +20,15 @@ export default function PaymentPage() {
     return Math.round(amount * 100);
   }
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const [showSidebar, setShowSidebar] = useState(false);
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex-1 p-6 bg-gray-100">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-          <div className="flex-1 ">
-            <Breadcrumb paths={[{ name: "Home", link: "/" }, { name: "Course Payment" }]} />
-            <h1 className="text-2xl font-bold">Course Payment</h1>
-          </div>
-          <div className="flex-1 justify-center">
-            <PageSearchBox />
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="lg:ml-52" >
+
+        <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+        <NavigationBar showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
+
+        <div className="bg-white p-6 m-3 rounded-lg shadow-md">
           {/* Course Details */}
           <div className="mb-6">
             <h2 className="text-xl font-bold mb-2">Course: {courseName}</h2>
@@ -58,6 +48,5 @@ export default function PaymentPage() {
           </Elements>
         </div>
       </div>
-    </div>
   );
 }

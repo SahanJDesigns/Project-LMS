@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongoose';
 
 export interface IResource {
+  _id: ObjectId;
   resourceId: string;
   title: string;
   type: 'Video' | 'Document' | 'Link' | 'PDF';

@@ -10,7 +10,6 @@ export const GET = async (request: NextRequest) => {
   try {
     await connectMongo();
     const session = await getServerSession({ req: request, ...authOptions });
-    console.log(session);
     const user_id = session?.user._id;
     if (!user_id) {
       return new NextResponse(JSON.stringify({ message: "You must be logged in." }), { status: 401 });
@@ -25,17 +24,3 @@ export const GET = async (request: NextRequest) => {
     return new NextResponse(`Error in fetching enrolled courses: ${error.message}`, { status: 500 });
   }
 };
-
-/*
-export const GET = async (request: NextRequest) => {
-  const session = await getServerSession({ req: request, ...authOptions });
-  console.log(session);
-  if (!session) {
-    return new NextResponse(JSON.stringify({ message: "You must be logged in." }), { status: 401 });
-  }
-
-  return new NextResponse(JSON.stringify({
-    message: "Success",
-  }), { status: 200 });
-}
-  */
