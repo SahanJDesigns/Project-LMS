@@ -1,7 +1,11 @@
 import { User } from '@/models/models';
 import connectMongo from '@/lib/dbconfig';
+
+import clientPromise from '@/lib/mongodb'; // Connect to MongoDB
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 
 declare module 'next-auth' {
   interface Session {
@@ -32,6 +36,15 @@ interface UserType {
 
 const options: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: "openid profile email",
+        },
+      },
+    }),
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -55,6 +68,7 @@ const options: NextAuthOptions = {
       },
     }),
   ],
+  adapter: MongoDBAdapter(clientPromise), // Use MongoDB for storing users
   session: {
     strategy: 'jwt',
   },
@@ -67,16 +81,20 @@ const options: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token) {
-        session.user = { _id: token._id};
+        session.user = { _id: token._id };
       }
       return session;
     },
+    async signIn({ user, account, profile }) {
+      // Ensure email is verified
+      if ((profile as any).email_verified) {
+        return true;
+      }
+      return false;
+    },
   },
-  secret: process.env.NEXTAUTH_SECRET, 
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
-
-const haddler = NextAuth(options);
-export { haddler as POST ,
-         haddler as GET,
-         options as authOptions};
+const handler = NextAuth(options);
+export { handler as POST, handler as GET, options as authOptions };

@@ -1,30 +1,25 @@
 'use client';
 import { useRouter } from "next/navigation";
 import React from "react";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
-  const haddleOnSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try{
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: e.currentTarget.username.value,
-          password: e.currentTarget.password.value,
-        }),
-        credentials: 'same-origin'
-      });
 
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: e.currentTarget.email.value,
+      password: e.currentTarget.password.value,
+    });
+
+    if (result?.error) {
+      console.error(result.error);
+    } else {
       router.push("/course/enrolled");
-    } catch (error) {
-      console.error(error);
     }
-      
-  }
+  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">
@@ -51,19 +46,20 @@ const LoginPage = () => {
         <p className="text-gray-500 mb-6">
           How do I get started lorem ipsum dolor at?
         </p>
-        <form onSubmit={haddleOnSubmit} className="w-full max-w-sm space-y-4">
+        <form onSubmit={handleOnSubmit} className="w-full max-w-sm space-y-4">
           <div>
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="block text-gray-700 font-medium mb-1"
             >
-              Username
+              Email
             </label>
             <input
-              type="text"
-              id="username"
+              type="email"
+              id="email"
               className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none"
-              placeholder="Enter your username"
+              placeholder="Enter your email"
+              required
             />
           </div>
           <div>
@@ -78,6 +74,7 @@ const LoginPage = () => {
               id="password"
               className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none"
               placeholder="Enter your password"
+              required
             />
           </div>
           <button
