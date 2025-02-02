@@ -359,7 +359,22 @@ const CoursePage: React.FC = () => {
     updatedAt: string;
   }
 
+  interface Lesson {
+    _id: string;
+    title: string;
+    description: string;
+    videoDuration: number;
+    video: string;
+    summary: string;
+    content: string;
+    resources: string[];
+    comments: string[];
+    createdAt: string;
+    updatedAt: string;
+  }
+
   const [courseDetails, setCourseDetails] = useState<Course | null>(null);
+  const [lessons, setLessons] = useState<Lesson[]>([]);
   const [activeSection, setActiveSection] = useState<string>("description");
 
   const sectionRefs = {
@@ -375,8 +390,33 @@ const CoursePage: React.FC = () => {
       const response = await fetch(`/api/course/onecourse?id=${courseId}`);
       const data: Course = await response.json();
       setCourseDetails(data);
+      fetchLessonDetails(data.lessons);
+      console.log('Course data:', data);
     } catch (error) {
       console.error('Error fetching course data:', error);
+    }
+  };
+
+  const fetchLessonDetails = async (lessonIds: string[]) => {
+    console.log('Fetching lesson details...');
+    try {
+      // const lessonDetails = await Promise.all(
+      //   lessonIds.map(async (lessonId) => {
+      //     const response = await fetch(`/api/lesson?lesson_id=${lessonId}`);
+      //     return response.json();
+      //   })
+      // );
+      const lessonDetails = await Promise.all(
+        lessonIds.map(async (lessonId) => {
+          const response = await fetch(`/api/lesson?lesson_id=${lessonId}`);
+          const data = await response.json(); 
+          return data.lesson; // API response returns an object { lesson: { ...lessonData } }. Extract the lesson property.
+        })
+      );      
+      console.log('Lesson details:', lessonDetails);
+      setLessons(lessonDetails);
+    } catch (error) {
+      console.error('Error fetching lesson details:', error);
     }
   };
 
@@ -431,6 +471,8 @@ const CoursePage: React.FC = () => {
   if (!courseDetails) {
     return <div>Loading...</div>;
   }
+
+  console.log("Rendering lessons:", lessons);
 
   return (
     <main className="course-page p-8 grid grid-cols-3 gap-8">
@@ -494,9 +536,14 @@ const CoursePage: React.FC = () => {
           >
             <h2 className="text-2xl font-semibold mb-4">Syllabus</h2>
             <div className="border border-gray-300 p-4 rounded-lg max-w-[800px] mx-auto">
-              {courseDetails.lessons.map((lesson, index) => (
+              {/* {courseDetails.lessons.map((lesson, index) => (
                 <div key={index} className="py-2 border-b last:border-b-0 flex items-center">
                   <span className="font-medium flex-[3]">{lesson}</span>
+                </div>
+              ))} */}
+              {lessons.map((lesson, index) => (
+                <div key={lesson._id} className="py-2 border-b last:border-b-0 flex items-center">
+                  <span className="font-medium flex-[3]">{lesson.title}</span>
                 </div>
               ))}
             </div>
@@ -579,19 +626,19 @@ const CoursePage: React.FC = () => {
             <p className="text-gray-600 mb-2">Share</p>
             <div className="flex justify-center space-x-4">
               <a href="https://www.facebook.com/" className="text-blue-600">
-                <img src="/public/course-assets/facebook_icon.png" alt="Facebook" />
+                {/* <img src="/public/course-assets/facebook_icon.png" alt="Facebook" /> */}
               </a>
               <a href="https://www.github.com/" className="text-gray-900">
-                <img src="/public/course-assets/github_icon.png" alt="Github" />
+                {/* <img src="/public/course-assets/github_icon.png" alt="Github" /> */}
               </a>
               <a href="https://www.google.com/" className="text-red-500">
-                <img src="/public/course-assets/google_icon.png" alt="Google" />
+                {/* <img src="/public/course-assets/google_icon.png" alt="Google" /> */}
               </a>
               <a href="https://www.x.com/" className="text-blue-400">
-                <img src="/public/course-assets/x_icon.png" alt="X" />
+                {/* <img src="/public/course-assets/x_icon.png" alt="X" /> */}
               </a>
               <a href="https://www.microsoft.com/" className="text-blue-800">
-                <img src="/public/course-assets/microsoft_icon.png" alt="Microsoft" />
+                {/* <img src="/public/course-assets/microsoft_icon.png" alt="Microsoft" /> */}
               </a>
             </div>
           </div>
