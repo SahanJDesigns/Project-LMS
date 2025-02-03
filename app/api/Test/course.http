@@ -2,7 +2,9 @@
 GET http://localhost:3000/api/course
 Content-Type: application/json
 
-###
+### Get a specific course by ID
+GET http://localhost:3000/api/course/onecourse?id=6787f30310698a7de5667367
+Content-Type: application/json
 
 ### Create a new course
 POST http://localhost:3000/api/course

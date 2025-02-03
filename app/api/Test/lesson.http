@@ -2,7 +2,8 @@
 GET http://localhost:3000/api/lesson
 Content-Type: application/json
 
-###
+### Get lessons by lesson id
+GET http://localhost:3000/api/lesson?lesson_id=678f29180f76f68599b86055
 
 ### Create a new lesson
 POST http://localhost:3000/api/lesson
