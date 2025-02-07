@@ -1,0 +1,45 @@
+### Get all lessons
+GET http://localhost:3000/api/lesson
+Content-Type: application/json
+
+###
+
+### Create a new lesson
+POST http://localhost:3000/api/lesson
+Content-Type: application/json
+
+{
+  "lessonId": "lesson1",
+  "title": "Introduction to Premiere Pro",
+  "description": "Learn the basics of Premiere Pro.",
+  "videoUrl": "https://example.com/video1.mp4",
+  "summary": "This lesson covers the basics of Premiere Pro.",
+  "content": "Detailed content about Premiere Pro basics.",
+  "course": "60d0fe4f5311236168a109e0",
+  "resources": ["60d0fe4f5311236168a109f0"],
+  "comments": ["60d0fe4f5311236168a109f1"]
+}
+
+###
+
+### Update a lesson
+PATCH http://localhost:3000/api/lesson
+Content-Type: application/json
+
+{
+  "lessonId": "lesson1",
+  "updateData": {
+    "title": "Advanced Premiere Pro",
+    "description": "Learn advanced techniques in Premiere Pro."
+  }
+}
+
+###
+
+### Delete a lesson
+DELETE http://localhost:3000/api/lesson
+Content-Type: application/json
+
+{
+  "lessonId": "lesson1"
+}
