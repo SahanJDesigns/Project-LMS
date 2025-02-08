@@ -1,15 +1,50 @@
 "use client";
-import React, { useState } from "react";
-import Sidebar from "../../components/Sidebar";
-import QuizCard from "../../components/QuizCard";
-import PageSearchBox from "../../components/PageSearchBox";
+import React, { use, useState, useEffect } from "react";
+import axios from "axios";
+import Sidebar from "../../../components/Sidebar";
+import QuizCard from "./quizCard";
+import PageSearchBox from "../../../components/PageSearchBox";
 import Breadcrumb from "@/components/Navigation";
-import DropdownMenu from "../../components/DropdownMenu";
+import DropdownMenu from "../../../components/DropdownMenu";
 import useGetQuiz from "@/context/getquiz";
-import { IQuiz, ICourse } from "@/types/interface";
+import { ICourse } from "@/types/interfaces";
+import NavigationBar from "@/components/NavigationBar";
+import { IQuiz } from "@/types/interfaces";
 
 const QuizPage: React.FC = () => {
-  const { quizes, loading, error } = useGetQuiz();
+  const [quizzes, setQuizes] = useState<IQuiz[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchQuizes = async () => {
+      try {
+        const res = await fetch("/api/quizes", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await res.json();
+
+        setQuizes(data);
+        setError(null);
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error("Error fetching quizzes:", err.message);
+          setError(err.message);
+        } else {
+          console.error("Unexpected error:", err);
+          setError("An unexpected error occurred.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuizes();
+  }, []);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [sortValue, setSortValue] = useState("latest");
   const [categoryValue, setCategoryValue] = useState("all");
@@ -31,32 +66,30 @@ const QuizPage: React.FC = () => {
   ];
 
   // **Filter and Sort Quizzes**
-const processedQuizzes: IQuiz[] = quizes
+  const processedQuizzes: IQuiz[] = quizzes
     .filter(
-        (quiz: IQuiz) =>
-            categoryValue === "all" || (quiz.course_id && ((quiz.course_id as unknown) as ICourse).category.toLowerCase() === categoryValue)
+      (quiz: IQuiz) =>
+        categoryValue === "all" ||
+        (quiz.course_id &&
+          (quiz.course_id as unknown as ICourse).category.toLowerCase() ===
+            categoryValue)
     )
     .sort((a: IQuiz, b: IQuiz) => {
-        if (sortValue === "latest") {
-            return b.name.localeCompare(a.name); // Example sort by title (latest)
-        } else {
-            return a.name.localeCompare(b.name); // Example sort by title (oldest)
-        }
+      if (sortValue === "latest") {
+        return b.name.localeCompare(a.name); // Example sort by title (latest)
+      } else {
+        return a.name.localeCompare(b.name); // Example sort by title (oldest)
+      }
     });
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex-1 p-6 bg-gray-100">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-          <div className="flex-1">
-            <Breadcrumb paths={[{ name: "Home", link: "/" }, { name: "Quiz" }]} />
-            <h1 className="text-2xl font-bold">Quiz</h1>
-          </div>
-          <div className="flex-1 justify-center">
-            <PageSearchBox />
-          </div>
-        </div>
+    <div className="lg:ml-52">
+      <Sidebar showSidebar={isSidebarOpen} setShowSidebar={setIsSidebarOpen} />
+      <NavigationBar
+        setShowSidebar={setIsSidebarOpen}
+        showSidebar={isSidebarOpen}
+      />
+      <div className="flex-1 p-6 min-h-full">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 space-y-4 lg:space-y-0">
             <div className="flex space-x-2">
@@ -91,18 +124,22 @@ const processedQuizzes: IQuiz[] = quizes
           {loading && <p>Loading quizzes...</p>}
           {error && <p>Error loading quizzes: {error}</p>}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-            
             {!loading &&
               processedQuizzes.map((quiz, index) => (
                 <QuizCard
                   key={index}
-                  quiz_id={quiz.quiz_id}
+                  quiz_id={quiz._id}
                   title={quiz.name}
-                  category={typeof quiz.course_id === 'object' && quiz.course_id !== null ? (quiz.course_id as ICourse).category : 'Unknown'}
+                  category={
+                    typeof quiz.course_id === "object" &&
+                    quiz.course_id !== null &&
+                    "category" in quiz.course_id
+                      ? (quiz.course_id as unknown as ICourse).category
+                      : "Unknown"
+                  }
                   image={quiz.image || "default-image-url.jpg"}
                 />
               ))}
-            
           </div>
         </div>
         <div className="mt-6 flex justify-center items-center space-x-2">

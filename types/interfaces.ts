@@ -4,6 +4,8 @@ import { ILesson } from './lesson';
 import { IResource } from './resource';
 import { ISchedule } from './schedule';
 import { IUser } from './user';
+import { IQuiz } from './quiz';
+import { IQuestion } from './question';
 
 export type {
   IComment,
@@ -11,5 +13,8 @@ export type {
   ILesson,
   IResource,
   ISchedule,
-  IUser
+  IUser,
+  IQuiz,
+  IQuestion
+
 };

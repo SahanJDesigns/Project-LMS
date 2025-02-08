@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import Breadcrumb from "../../components/Navigation"; // Import Breadcrumb
-import PageSearchBox from "../../components/PageSearchBox"; // Import PageSearchBox
+import Breadcrumb from "../../../components/Navigation"; // Import Breadcrumb
+import PageSearchBox from "../../../components/PageSearchBox"; // Import PageSearchBox
 
 const QuestionPage: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -28,13 +28,15 @@ const QuestionPage: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
           <div className="flex-1">
             <Breadcrumb
-              paths={[{ name: "Home", link: "/" }, { name: "Quiz", link: "/quiz" }, { name: "Question" }]} 
+              paths={[
+                { name: "Home", link: "/" },
+                { name: "Quiz", link: "/quiz" },
+                { name: "Question" },
+              ]}
             />
             <h1 className="text-2xl font-bold">Quiz</h1>
           </div>
-          <div className="flex-1 justify-center">
-            
-          </div>
+          <div className="flex-1 justify-center"></div>
         </div>
         <div className="bg-white p-8 rounded shadow-md w-full max-w-md mx-auto">
           <form onSubmit={handleSubmit}>

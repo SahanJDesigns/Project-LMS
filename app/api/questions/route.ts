@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/lib/dbconfig";
-import Question from "@/models/question";
-import Quiz from "@/models/quiz";
+import { Question } from "@/models/models";
 
 export const GET = async () => {
   try {
     await connectMongo();
 
-    const questions = await Question.find().populate("quiz", "quiz_id");
+    const questions = await Question.find().populate("quiz","quiz_id");
     console.log("questions", questions);
-   
 
     return new NextResponse(JSON.stringify(questions), { status: 200 });
   } catch (error: any) {
