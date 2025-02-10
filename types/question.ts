@@ -22,7 +22,7 @@ type QuestionType =
 
 interface IOption {
   text?: string;
-  isCorrect: boolean;
+  isCorrect?: boolean;
 
   key?: string;
   value?: string;
