@@ -14,6 +14,27 @@ export const GET = async () => {
   }
 };
 
+export const GETONE = async (request: Request, { params }: { params: { id: string } }) => {
+  try {
+    await connectMongo();
+    const { id } = params;
+
+    if (!Types.ObjectId.isValid(id)) {
+      return new NextResponse(JSON.stringify({ message: "Invalid Course ID" }), { status: 400 });
+    }
+
+    const course = await Course.findById(id);
+
+    if (!course) {
+      return new NextResponse(JSON.stringify({ message: "Course not found" }), { status: 404 });
+    }
+
+    return new NextResponse(JSON.stringify(course), { status: 200 });
+  } catch (error: any) {
+    return new NextResponse(`Error in fetching course: ${error.message}`, { status: 500 });
+  }
+};
+
 export const POST = async (request: Request) => {
   try {
     await connectMongo();
