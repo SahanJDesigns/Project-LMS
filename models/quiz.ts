@@ -1,26 +1,24 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import Course from "./course";
 
 const QuizSchema = new mongoose.Schema({
-  quiz_id:{
-    type:mongoose.Schema.Types.ObjectId,
-    required: true,},
-  name:{
+  name: {
     type: String,
-    required: true,},
-  description:{
-    type: String},
-  course_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course', // Reference to the course
     required: true,
   },
-  question_id: [
+  description: {
+    type: String,
+  },
+  image: { type: String, required: true },
+  course_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Course", // Reference to the course
+    required: true,
+  },
+  questions: [
     {
-      question: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question', // Reference to the question
-        required: true,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Question",
     },
   ],
   totalQuestions: {
@@ -53,15 +51,20 @@ const QuizSchema = new mongoose.Schema({
       },
       gradingMethod: {
         type: String,
-        enum: ['highest_grade', 'average_grade', 'first_attempt', 'last_attempt'],
-        default: 'highest_grade',
+        enum: [
+          "highest_grade",
+          "average_grade",
+          "first_attempt",
+          "last_attempt",
+        ],
+        default: "highest_grade",
       },
     },
     layout: {
       questionOrder: {
         type: String,
-        enum: ['shuffle', 'fixed'],
-        default: 'shuffle',
+        enum: ["shuffle", "fixed"],
+        default: "shuffle",
       },
       newPage: {
         type: Number, // Questions per page
@@ -75,8 +78,8 @@ const QuizSchema = new mongoose.Schema({
       },
       behaviorType: {
         type: String,
-        enum: ['deferred_feedback', 'immediate_feedback', 'interactive'],
-        default: 'deferred_feedback',
+        enum: ["deferred_feedback", "immediate_feedback", "interactive"],
+        default: "deferred_feedback",
       },
     },
     reviewOptions: {
@@ -111,8 +114,8 @@ const QuizSchema = new mongoose.Schema({
       },
       browserSecurity: {
         type: String,
-        enum: ['none', 'secure_window'],
-        default: 'none',
+        enum: ["none", "secure_window"],
+        default: "none",
       },
     },
     completion: {
@@ -159,8 +162,8 @@ const QuizSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['active', 'completed', 'inactive'],
-    default: 'active',
+    enum: ["active", "completed", "inactive"],
+    default: "active",
   },
   createdAt: {
     type: Date,
@@ -168,4 +171,4 @@ const QuizSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Quiz || mongoose.model('Quiz', QuizSchema);
+export default mongoose.models.Quiz || mongoose.model("Quiz", QuizSchema);

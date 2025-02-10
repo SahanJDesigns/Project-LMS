@@ -1,9 +1,11 @@
-const mongoose = require('mongoose');
+import { Mongoose } from "mongoose";
+
+const mongoose = require("mongoose");
 
 const QuestionSchema = new mongoose.Schema({
   quiz: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Quiz', // Reference to the quiz
+    ref: "Quiz", // Reference to the quiz
     required: true,
   },
   text: {
@@ -12,24 +14,58 @@ const QuestionSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['multiple_choice', 'true_false', 'short_answer', 'matching', 'Essay','Numerical', 'Drag and drop'],
+    enum: [
+      "multiple_choice",
+      "true_false",
+      "short_answer",
+      "matching",
+      "Essay",
+      "Numerical",
+      "Drag and drop",
+    ],
     required: true,
   },
+
   options: [
     {
       text: {
         type: String,
-        required: true,
+        required: function (this : any) {
+          return this.type !== "matching"; // Only required for non-matching types
+        },
+      },
+      key: {
+        type: String,
+        required: function ( this : any) {
+          return this.type === "matching"; // Only required for matching type
+        },
+      },
+      value: {
+        type: String,
+        required: function (this : any) {
+          return this.type === "matching"; // Only required for matching type
+        },
       },
       isCorrect: {
         type: Boolean,
-        required: true,
+        required: function (this : any) {
+          return this.type !== "matching"; // Not needed for matching type
+        },
       },
     },
   ],
+
   answer: {
     type: String, // For true/false or short-answer questions
-    enum: ['multiple_choice', 'true_false', 'short_answer', 'matching', 'Essay','Numerical', 'Drag and drop'],
+    enum: [
+      "multiple_choice",
+      "true_false",
+      "short_answer",
+      "matching",
+      "Essay",
+      "Numerical",
+      "Drag and drop",
+    ],
     required: false,
   },
   weight: {
@@ -42,11 +78,13 @@ const QuestionSchema = new mongoose.Schema({
     },
   ],
   media: [
-    { file_name:{
-         type: String,},
-      file_url:{
-         type: String, },
-      
+    {
+      file_name: {
+        type: String,
+      },
+      file_url: {
+        type: String,
+      },
     },
   ],
 
@@ -58,7 +96,7 @@ const QuestionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-
 });
 
-export default mongoose.models.Question || mongoose.model('Question', QuestionSchema);
+export default mongoose.models.Question ||
+  mongoose.model("Question", QuestionSchema);

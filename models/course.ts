@@ -31,4 +31,4 @@ const courseSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true });
 
-export default mongoose.models.Course || mongoose.model('Course', courseSchema);
+export default mongoose.models.Course || mongoose.model("Course", courseSchema);
